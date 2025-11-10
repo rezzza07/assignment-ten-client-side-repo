@@ -8,14 +8,15 @@ import { RouterProvider } from "react-router/dom";
 import Home from './components/Home/Home.jsx';
 import RootLayout from './layout/RootLayout.jsx';
 import ExploreArtworks from './components/ExploreArtworks/ExploreArtworks.jsx';
+import Error from './pages/Error/Error.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
-    children:[
+    children: [
       {
-        index:true,
+        index: true,
         Component: Home
       },
       {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
         Component: ExploreArtworks
       }
     ]
+  },
+  {
+    path: "/*",
+    element: <Error></Error>
   },
 ]);
 
