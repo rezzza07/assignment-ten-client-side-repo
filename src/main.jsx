@@ -9,6 +9,12 @@ import Home from './components/Home/Home.jsx';
 import RootLayout from './layout/RootLayout.jsx';
 import ExploreArtworks from './components/ExploreArtworks/ExploreArtworks.jsx';
 import Error from './pages/Error/Error.jsx';
+import AuthProvider from './contexts/AuthProvider.jsx';
+import Register from './components/Register/Register.jsx';
+import LogIn from './components/LogIn/LogIn.jsx';
+import AddArtwork from './components/AddArtwork/AddArtwork.jsx';
+import MyFavorites from './components/MyFavorites/MyFavorites.jsx';
+import MyGallery from './components/MyGallery/MyGallery.jsx';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +28,26 @@ const router = createBrowserRouter([
       {
         path: 'exploreArtworks',
         Component: ExploreArtworks
+      },
+      {
+        path: 'register',
+        Component: Register
+      },
+      {
+        path:'login',
+        Component: LogIn
+      },
+      {
+        path:'addArtwork',
+        element: <AddArtwork></AddArtwork>
+      },
+      {
+        path:'myFavorites',
+        element: <MyFavorites></MyFavorites>
+      },
+      {
+        path:'myGallery',
+        element: <MyGallery></MyGallery>
       }
     ]
   },
@@ -33,6 +59,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+    
   </StrictMode>
 )

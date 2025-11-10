@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LoginButton = () => {
+const Button = () => {
   return (
     <StyledWrapper>
       <button>
-        <span className="text">Log in</span>
+        Log In
       </button>
     </StyledWrapper>
   );
@@ -13,51 +13,77 @@ const LoginButton = () => {
 
 const StyledWrapper = styled.div`
   button {
-    align-items: center;
-    background-image: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
-    border: 0;
-    border-radius: 8px;
-    box-shadow: rgba(151, 65, 252, 0.2) 0 6px 15px -5px; /* smaller shadow */
-    box-sizing: border-box;
-    color: #ffffff;
-    display: flex;
-    font-size: 14px; /* smaller font */
-    justify-content: center;
-    line-height: 1em;
-    max-width: 100%;
-    min-width: 100px; /* smaller width */
-    padding: 1px; /* smaller padding */
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all 0.3s;
+    position: relative;
+    padding: 10px 20px;
+    border-radius: 7px;
+    border: 1px solid rgb(238, 9, 121);
+
+    font-size: 14px;
+    
+    font-weight: 600;
+    
+    background: transparent;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 0 0 0 transparent;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
   }
 
-  button:active,
   button:hover {
-    outline: 0;
+    background: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
+    
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
   }
 
-  button span {
-    background-color: rgb(5, 6, 45);
-    padding: 10px 16px; /* smaller inner padding */
-    border-radius: 6px;
-    width: 100%;
-    height: 100%;
-    transition: 300ms;
-    font-weight: 600; /* semi-bold text */
+  button:hover::before {
+    -webkit-animation: sh02 0.5s 0s linear;
+    -moz-animation: sh02 0.5s 0s linear;
+    animation: sh02 0.5s 0s linear;
   }
 
-  button:hover span {
-    background: none;
+  button::before {
+    content: '';
+    display: block;
+    width: 0px;
+    height: 86%;
+    position: absolute;
+    top: 7%;
+    left: 0%;
+    opacity: 0;
+    background: #fff;
+    box-shadow: 0 0 50px 30px #fff;
+    -webkit-transform: skewX(-20deg);
+    -moz-transform: skewX(-20deg);
+    -ms-transform: skewX(-20deg);
+    -o-transform: skewX(-20deg);
+    transform: skewX(-20deg);
+  }
+
+  @keyframes sh02 {
+    from {
+      opacity: 0;
+      left: 0%;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+      left: 100%;
+    }
   }
 
   button:active {
-    transform: scale(0.95);
-  }
-`;
+    box-shadow: 0 0 0 0 transparent;
+    -webkit-transition: box-shadow 0.2s ease-in;
+    -moz-transition: box-shadow 0.2s ease-in;
+    transition: box-shadow 0.2s ease-in;
+  }`;
 
-export default LoginButton;
+export default Button;

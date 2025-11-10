@@ -1,65 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const RegisterButton = () => {
+const Button = () => {
   return (
     <StyledWrapper>
-      <button>
-        <span className="text">Register</span>
-      </button>
+      <button>Register</button>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
   button {
-    align-items: center;
-    background-image: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
-    border: 0;
-    border-radius: 8px;
-    box-shadow: rgba(151, 65, 252, 0.2) 0 6px 15px -5px; /* smaller shadow */
-    box-sizing: border-box;
-    color: #ffffff;
-    display: flex;
-    font-size: 14px; /* smaller font */
-    justify-content: center;
-    line-height: 1em;
-    max-width: 100%;
-    min-width: 100px; /* smaller width */
-    padding: 1px; /* smaller padding */
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  button:active,
-  button:hover {
+    font-size: 17px; 
+    font-weight: 600; /* semi-bold */
+    display: inline-block;
     outline: 0;
+    border: 0;
+    cursor: pointer;
+    will-change: box-shadow, transform;
+    background: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
+    
+    padding: 0 1.8em; /* slightly smaller horizontal padding */
+    border-radius: 0.3em;
+    color: #fff;
+    height: 2.4em; /* slightly smaller height */
+    text-shadow: 0 1px 0 rgb(0 0 0 / 40%);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
   }
 
-  button span {
-    /* Keep the gradient always visible */
-    background-image: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
-    padding: 10px 16px; /* smaller inner padding */
-    border-radius: 6px;
-    width: 100%;
-    height: 100%;
-    transition: 300ms;
-    font-weight: 600; /* semi-bold text */
-  }
-
-  button:hover span {
-    /* Remove hover effect */
-    background-image: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
+  button:hover {
+    
+    transform: translateY(-0.1em);
   }
 
   button:active {
-    transform: scale(0.95);
+    box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
+    transform: translateY(0em);
   }
 `;
 
-export default RegisterButton;
+export default Button;
