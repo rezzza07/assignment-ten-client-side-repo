@@ -1,12 +1,18 @@
 import React from 'react';
-import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
+import FeaturedArts from '../FeaturedArts/FeaturedArts';
+import TopArtists from '../TopArtists/TopArtists';
+
+const featuredArtsPromise = fetch('http://localhost:3000/featured-arts')
+.then(res=>res.json());
 
 const Home = () => {
   return (
     <div>
       
       <Banner></Banner>
+      <FeaturedArts featuredArtsPromise={featuredArtsPromise} ></FeaturedArts>
+      <TopArtists></TopArtists>
     </div>
   );
 };

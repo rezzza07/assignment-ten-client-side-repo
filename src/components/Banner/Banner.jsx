@@ -5,8 +5,7 @@ import { Link } from "react-router";
 const Banner = () => {
   const slides = [
     {
-      image:
-        "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1920&q=80",
+      image:"",
       title: "VIBRANT VISIONS",
       subtitle: "Where imagination meets color and emotion.",
       artist: "By Ava Morales",

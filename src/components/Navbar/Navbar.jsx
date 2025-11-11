@@ -63,8 +63,7 @@ const Navbar = () => {
 
                 <h1 className="text-3xl font-bold 
                 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 
-                bg-clip-text text-transparent">
-                    artopia
+                bg-clip-text text-transparent">artopia
                 </h1>
 
             </div>
