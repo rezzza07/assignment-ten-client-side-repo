@@ -1,34 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import Navbar from '../Navbar/Navbar';
+import Banner from '../Banner/Banner';
 
-const Loader = () => {
+const Home = () => {
   return (
-    <StyledWrapper>
-      <div className="loader" />
-    </StyledWrapper>
+    <div>
+      
+      <Banner></Banner>
+    </div>
   );
-}
+};
 
-const StyledWrapper = styled.div`
-  .loader {
-    width: 160px;
-    height: 160px;
-    color: #0000F4;
-    background: conic-gradient(from  165deg at top   ,#0000, currentColor 1deg 30deg,#0000 31deg) top,
-      conic-gradient(from   75deg at left  ,#0000, currentColor 1deg 30deg,#0000 31deg) left,
-      conic-gradient(from  -15deg at bottom,#0000, currentColor 1deg 30deg,#0000 31deg) bottom, 
-      conic-gradient(from -105deg at right ,#0000, currentColor 1deg 30deg,#0000 31deg) right;
-    background-size: 100% 50%,50% 100%;
-    -webkit-mask: radial-gradient(circle 10px,#0000 90%,#000);
-    background-repeat: no-repeat;
-    animation: sh1 1.5s infinite linear;
-  }
-
-  @keyframes sh1 {
-
-    100% {
-      transform: rotate(1turn)
-    }
-  }`;
-
-export default Loader;
+export default Home;
