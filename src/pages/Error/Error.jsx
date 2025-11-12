@@ -1,82 +1,32 @@
-// Error.jsx
 import React from 'react';
-import { useNavigate } from 'react-router';
-import styled from 'styled-components';
+
 import { FaHome } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 const Error = () => {
-  const navigate = useNavigate(); // useNavigate works in react-router too
+  const navigate = useNavigate();
 
   return (
-    <Wrapper>
-      <Content>
-        <h1>404</h1>
-        <h2>Oops! Page not found</h2>
-        <p>The page you are looking for does not exist.</p>
-        <button onClick={() => navigate('/')}>
-           Back to Home
+    <div className="w-screen h-screen flex justify-center items-center bg-gray-900">
+      <div className="text-center text-white px-6">
+        <h1 className="text-8xl font-bold bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent mb-4">
+          404
+        </h1>
+        <h2 className="text-2xl font-semibold bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent mb-4">
+          Oops! Page not found
+        </h2>
+        <p className="text-gray-400 text-lg mb-8">
+          The page you are looking for does not exist.
+        </p>
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 text-white px-6 py-3 rounded-lg font-semibold text-lg hover:scale-105 transition-transform"
+        >
+          <FaHome /> Back to Home
         </button>
-      </Content>
-    </Wrapper>
+      </div>
+    </div>
   );
 };
-
-
-const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #05062d;
-`;
-
-const Content = styled.div`
-  text-align: center;
-  color: #fff;
-
-  h1 {
-    font-size: 8rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    background: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: #ccc;
-  }
-
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #7f00ff 100%);
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-
-  button:hover {
-    transform: scale(1.05);
-  }
-`;
 
 export default Error;

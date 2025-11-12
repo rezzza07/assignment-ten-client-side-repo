@@ -15,7 +15,7 @@ import LogIn from './components/LogIn/LogIn.jsx';
 import AddArtwork from './components/AddArtwork/AddArtwork.jsx';
 import MyFavorites from './components/MyFavorites/MyFavorites.jsx';
 import MyGallery from './components/MyGallery/MyGallery.jsx';
-import ArtDetails from './components/ArtDetails/ArtDetails.jsx';
+// import ArtDetails from './components/ArtDetails/ArtDetails.jsx';
 
 
 const router = createBrowserRouter([
@@ -52,11 +52,12 @@ const router = createBrowserRouter([
         path:'myGallery',
         element: <MyGallery></MyGallery>
       },
-      {
-        path: 'artDetails/:id',
-        loader: ({params})=> fetch(`http://localhost:3000/arts/${params.id}`),
-        Component: ArtDetails
-      }
+      // {
+      //   path: 'artDetails/:id',
+      //   Component: ArtDetails,
+      //   loader: ({params})=> fetch(`http://localhost:3000/arts/${params.id}`)
+        
+      // }
     ]
   },
   {
