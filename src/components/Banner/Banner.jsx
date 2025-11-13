@@ -12,14 +12,14 @@ const Banner = () => {
     },
     {
       image:
-        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1920&q=80",
+        "https://artgas.au/wp-content/uploads/2024/02/Urban_Pop_Art-1.webp",
       title: "URBAN EXPRESSION",
       subtitle: "Street meets fine art — creativity beyond walls.",
       artist: "By J. Kwan",
     },
     {
       image:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1920&q=80",
+        "https://img.freepik.com/free-photo/abstract-wallpaper-background-mixed-color-acrylic-paint-textured_53876-134374.jpg?semt=ais_hybrid&w=740&q=80",
       title: "LIGHT & FORM",
       subtitle: "Modern sculpture illuminated by digital design.",
       artist: "By M. Dutta",
