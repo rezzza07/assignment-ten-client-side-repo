@@ -67,6 +67,8 @@ return (
           >
              Add to Favorites
           </button>
+
+          
         </div>
       </div>
     </div>

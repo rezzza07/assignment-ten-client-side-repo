@@ -16,6 +16,8 @@ import AddArtwork from './components/AddArtwork/AddArtwork.jsx';
 import MyFavorites from './components/MyFavorites/MyFavorites.jsx';
 import MyGallery from './components/MyGallery/MyGallery.jsx';
 import ArtDetails from './components/ArtDetails/ArtDetails.jsx';
+import UpdateArt from './components/UpdateArt/UpdateArt.jsx';
+
 
 
 
@@ -54,14 +56,14 @@ const router = createBrowserRouter([
         element: <MyGallery></MyGallery>
       },
       {
-        // path: 'artDetails/:id',
-        // Component: ArtDetails,
-        // loader: ({params})=> fetch(`http://localhost:3000/arts/${params.id}`)
         path:'artDetails/:id',
         Component: ArtDetails,
         loader:({params})=>fetch(`http://localhost:3000/arts/${params.id}`)
-        
-        
+      },
+      {
+        path:'updateArt/:id',
+        Component:UpdateArt,
+        loader:({params})=>fetch(`http://localhost:3000/arts/${params.id}`)
       }
     ]
   },
