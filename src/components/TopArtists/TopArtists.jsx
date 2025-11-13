@@ -4,22 +4,22 @@ const artists = [
   {
     name: "Ariana Silva",
     role: "Digital Illustrator",
-    img: "https://i.ibb.co/ZmYkSpv/artist1.jpg",
+    img: "https://media.licdn.com/dms/image/v2/D4E03AQGQuCeWOnJAHw/profile-displayphoto-scale_200_200/B4EZgs3bYiGoAY-/0/1753099386167?e=2147483647&v=beta&t=y1Qf90LJWzL5mWFFLWt7p4cyYcm80kSegMxJNLcrJ_M",
   },
   {
     name: "Noah Parker",
     role: "3D Concept Artist",
-    img: "https://cdn.prod.website-files.com/62bdc93e9cccfb43e155104c/66c9beca445b37b90d7a4696_Luffy%20pfp%20400x400%20(6).png",
+    img: "https://media.licdn.com/dms/image/v2/D5603AQFKy-1qRTA0Mw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1708215647031?e=2147483647&v=beta&t=FfCy8d0X0D79KPeBCZ9WO8yBWCMQsFaHYZ0S5HGOmtw",
   },
   {
     name: "Luna Chen",
     role: "Watercolor Specialist",
-    img: "https://i.ibb.co/3rq7CPM/artist3.jpg",
+    img: "https://media.licdn.com/dms/image/v2/D5603AQFBk-PlY6aRDg/profile-displayphoto-scale_200_200/B56Zo2DMahJQAY-/0/1761843401915?e=2147483647&v=beta&t=zMSDds0TPT85mhGa6kIYC_lkRrkJZ1K0EMnJmNUakAM",
   },
   {
     name: "Ethan Rivera",
     role: "Mixed Media Creator",
-    img: "https://i.ibb.co/tLDgW3Q/artist4.jpg",
+    img: "https://media.licdn.com/dms/image/v2/D4E22AQEo29DX3VpN0w/feedshare-shrink_800/feedshare-shrink_800/0/1722719394721?e=2147483647&v=beta&t=k9AFq7QsetQrn4CnU1XohmOJV_JPQbTK6ak6FnIkSA8",
   },
 ];
 

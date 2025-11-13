@@ -78,17 +78,17 @@ const Banner = () => {
             </p>
 
             <div className="flex items-center gap-5 mt-4">
-              <Link to="/artworks">
+              <Link to="/exploreArtworks">
                 <span
                   className={`inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-md font-semibold text-white cursor-pointer transition-all duration-300 ${gradient} hover:opacity-90 shadow-lg`}
                 >
-                  View Details
+                  Explore More
                 </span>
               </Link>
 
-              <Link to="/artists">
+              <Link to="/addArtwork">
                 <span className="inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-md font-semibold text-white cursor-pointer transition-all duration-300 border border-white/40 hover:bg-white/10">
-                  Discover Artists
+                  Got something to share?
                 </span>
               </Link>
             </div>
