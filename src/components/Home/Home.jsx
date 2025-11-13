@@ -3,6 +3,7 @@ import Banner from '../Banner/Banner';
 import FeaturedArts from '../FeaturedArts/FeaturedArts';
 import TopArtists from '../TopArtists/TopArtists';
 import CommunityHighlights from '../CommunityHighlights/CommunityHighlights';
+import Footer from '../Footer/Footer';
 
 const featuredArtsPromise = fetch('http://localhost:3000/featured-arts')
 .then(res=>res.json());
@@ -15,6 +16,7 @@ const Home = () => {
       <FeaturedArts featuredArtsPromise={featuredArtsPromise} ></FeaturedArts>
       <TopArtists></TopArtists>
       <CommunityHighlights></CommunityHighlights>
+      <Footer></Footer>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import Art from '../Art/Art';
+import Loading from '../Loading/Loading';
 
 const MyGallery = () => {
   const { user } = React.useContext(AuthContext);
@@ -25,7 +26,7 @@ const MyGallery = () => {
   }, [user]);
 
   if (loading) {
-    return <div className="text-center py-20">Please Wait........ Loading</div>;
+    return <Loading></Loading>
   }
 
   return (

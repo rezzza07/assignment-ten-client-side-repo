@@ -17,6 +17,8 @@ import MyFavorites from './components/MyFavorites/MyFavorites.jsx';
 import MyGallery from './components/MyGallery/MyGallery.jsx';
 import ArtDetails from './components/ArtDetails/ArtDetails.jsx';
 import UpdateArt from './components/UpdateArt/UpdateArt.jsx';
+import PrivateRoute from './contexts/PrivateRoutes.jsx';
+
 
 
 
@@ -33,37 +35,53 @@ const router = createBrowserRouter([
       {
         path: 'exploreArtworks',
         Component: ExploreArtworks,
-        loader:()=> fetch('http://localhost:3000/arts')
+        loader: () => fetch('http://localhost:3000/arts')
       },
       {
         path: 'register',
         Component: Register
       },
       {
-        path:'login',
+        path: 'login',
         Component: LogIn
       },
       {
-        path:'addArtwork',
-        element: <AddArtwork></AddArtwork>
+        path: 'addArtwork',
+        element: (
+          <PrivateRoute>
+            <AddArtwork></AddArtwork>
+          </PrivateRoute>
+        )
       },
       {
-        path:'myFavorites',
-        element: <MyFavorites></MyFavorites>
+        path: 'myFavorites',
+        element: (
+          <PrivateRoute>
+            <MyFavorites></MyFavorites>
+          </PrivateRoute>
+        )
       },
       {
-        path:'myGallery',
-        element: <MyGallery></MyGallery>
+        path: 'myGallery',
+        element: (
+          <PrivateRoute>
+            <MyGallery></MyGallery>
+          </PrivateRoute>
+        )
       },
       {
-        path:'artDetails/:id',
-        Component: ArtDetails,
-        loader:({params})=>fetch(`http://localhost:3000/arts/${params.id}`)
+        path: 'artDetails/:id',
+        element: (<PrivateRoute>
+          <ArtDetails></ArtDetails>
+        </PrivateRoute>),
+        loader: ({ params }) => fetch(`http://localhost:3000/arts/${params.id}`)
       },
       {
-        path:'updateArt/:id',
-        Component:UpdateArt,
-        loader:({params})=>fetch(`http://localhost:3000/arts/${params.id}`)
+        path: 'updateArt/:id',
+        element: (<PrivateRoute>
+          <UpdateArt></UpdateArt>
+        </PrivateRoute>),
+        loader: ({ params }) => fetch(`http://localhost:3000/arts/${params.id}`)
       }
     ]
   },
@@ -78,6 +96,6 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-    
+
   </StrictMode>
 )

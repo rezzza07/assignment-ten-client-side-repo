@@ -1,6 +1,7 @@
 import React, { use, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import Art from '../Art/Art';
+import Loading from '../Loading/Loading';
 
 const MyFavorites = () => {
 
@@ -27,7 +28,7 @@ const MyFavorites = () => {
     }, [user]);
 
     if (loading) {
-        return <div className="text-center py-20">Please Wait........ Loading</div>;
+        return <Loading></Loading>
     }
     return (
         <div className=''>

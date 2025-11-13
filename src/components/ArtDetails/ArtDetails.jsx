@@ -17,7 +17,7 @@ const ArtDetails = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({...art,favorited_by:user.email})
+      body: JSON.stringify({...art,added_by:user.email})
     })
       .then(res => res.json())
       .then(data => {
