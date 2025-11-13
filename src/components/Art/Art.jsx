@@ -1,8 +1,50 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 export const Art = ({ art, isMyGallery }) => {
   const { _id, image, title, name, category } = art;
+
+  const navigate = useNavigate()
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      theme: 'auto',
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#111827",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        fetch(`http://localhost:3000/arts/${art._id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data)
+            navigate('/exploreArtworks')
+            Swal.fire({
+          title: "Deleted!",
+          theme: 'auto',
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+          })
+          .catch(err => {
+            console.log(err)
+
+          })
+        
+      }
+    });
+  }
 
   return (
     <div
@@ -32,8 +74,8 @@ export const Art = ({ art, isMyGallery }) => {
 
             {isMyGallery && (
               <div className="flex gap-2">
-                <Link to={`/updateArt/${_id}`} className="bg-green-500 text-white px-3 py-1 rounded text-sm">Update</Link>
-                <Link className="bg-red-500 text-white px-3 py-1 rounded text-sm">Delete</Link>
+                <button className="bg-green-500 text-white px-3 py-1 rounded text-sm">Update</button>
+                <button onClick={handleDelete} className="bg-red-500 text-white px-3 py-1 rounded text-sm">Delete</button>
               </div>
             )}
           </div>
