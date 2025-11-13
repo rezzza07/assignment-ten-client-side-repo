@@ -5,7 +5,7 @@ import { Link } from "react-router";
 const Banner = () => {
   const slides = [
     {
-      image:"",
+      image:"https://i.ibb.co.com/k6Vs82x2/Gemini-Generated-Image-q4ubspq4ubspq4ub.png",
       title: "VIBRANT VISIONS",
       subtitle: "Where imagination meets color and emotion.",
       artist: "By Ava Morales",

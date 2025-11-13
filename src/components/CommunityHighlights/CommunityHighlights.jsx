@@ -14,22 +14,31 @@ const CommunityHighlights = () => {
 
         {/* Highlights Grid */}
         <div className="grid md:grid-cols-3 gap-10">
-          {/* Contribution Card */}
-          <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-            <h3 className="text-4xl font-bold mb-2">150+</h3>
+          {/* Contributions */}
+          <div className="border border-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+            <h3 className="text-5xl font-bold mb-2">150+</h3>
             <p className="text-lg opacity-90">Artists Contributing</p>
+            <p className="mt-2 text-sm opacity-80">
+              Our community is growing every day with talented creators sharing their visions.
+            </p>
           </div>
 
-          {/* Achievement Card */}
-          <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-            <h3 className="text-4xl font-bold mb-2">320+</h3>
+          {/* Artworks Shared */}
+          <div className="border border-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+            <h3 className="text-5xl font-bold mb-2">320+</h3>
             <p className="text-lg opacity-90">Artworks Shared</p>
+            <p className="mt-2 text-sm opacity-80">
+              Thousands of stunning creations have been contributed to inspire others.
+            </p>
           </div>
 
-          {/* Success Card */}
-          <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-            <h3 className="text-4xl font-bold mb-2">75+</h3>
-            <p className="text-lg opacity-90">Community Achievements</p>
+          {/* Community Achievements */}
+          <div className="border border-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+            <h3 className="text-5xl font-bold mb-2">75+</h3>
+            <p className="text-lg opacity-90">Achievements Unlocked</p>
+            <p className="mt-2 text-sm opacity-80">
+              Celebrating milestones and successful projects created by our community.
+            </p>
           </div>
         </div>
 
