@@ -4,9 +4,12 @@ import { useLoaderData } from 'react-router';
 
 const UpdateArt = () => {
     const data = useLoaderData();
-    const art = data.result;
+    // loader may return { success: true, result } or the art object directly
+    const art = data?.result ?? data;
+    console.debug('UpdateArt loader data:', data);
+    console.debug('Resolved art:', art);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formData = {
@@ -22,22 +25,36 @@ const UpdateArt = () => {
             visibility: e.target.visibility.value,
         };
 
-        fetch(`http://localhost:3000/arts/${art._id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                alert("Artwork updated successfully!");
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Failed to update artwork.");
+        // ensure we have a usable id (string)
+        const id = art?._id?.toString?.() || art?.id || art?._id;
+        if (!id) {
+            console.error('UpdateArt: missing art id', art);
+            alert('Cannot update: missing art id');
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/arts/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
             });
+
+            const json = await res.json();
+            console.debug('Update response:', res.status, json);
+            if (!res.ok) {
+                console.error('Update failed', json);
+                alert('Failed to update artwork.');
+                return;
+            }
+
+            alert('Artwork updated successfully!');
+        } catch (err) {
+            console.error('UpdateArt fetch error', err);
+            alert('Failed to update artwork.');
+        }
     };
 
     return (

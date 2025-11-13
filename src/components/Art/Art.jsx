@@ -74,7 +74,7 @@ export const Art = ({ art, isMyGallery }) => {
 
             {isMyGallery && (
               <div className="flex gap-2">
-                <button className="bg-green-500 text-white px-3 py-1 rounded text-sm">Update</button>
+              <Link to={`/updateArt/${_id}`} className="bg-green-500 text-white px-3 py-1 rounded text-sm">Update</Link>
                 <button onClick={handleDelete} className="bg-red-500 text-white px-3 py-1 rounded text-sm">Delete</button>
               </div>
             )}
