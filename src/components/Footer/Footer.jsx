@@ -14,12 +14,13 @@ const socialLinks = [
   },
   {
     href: "https://twitter.com",
-    label: "Twitter",
-    color: "bg-blue-400",
+    label: "X",
+    color: "bg-black",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width={22} height={22}>
-        <path d="M23.954 4.569c-.885.392-1.83.656-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.897-.959-2.178-1.555-3.594-1.555-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124-4.087-.205-7.713-2.164-10.141-5.144-.423.724-.666 1.562-.666 2.457 0 1.693.861 3.187 2.17 4.065-.801-.026-1.555-.246-2.214-.616v.061c0 2.364 1.679 4.337 3.909 4.785-.409.111-.84.171-1.285.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.418-1.68 1.317-3.809 2.105-6.102 2.105-.395 0-.79-.023-1.17-.067 2.179 1.397 4.768 2.213 7.557 2.213 9.054 0 14-7.496 14-13.986 0-.21 0-.423-.015-.634.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/>
-      </svg>
+  <path d="M18.244 2H21.5l-7.41 8.455L22.5 22h-6.843l-5.068-6.482L4.83 22H1.5l7.93-9.04L1.5 2h6.98l4.54 5.94L18.244 2zm-2.403 17h2.11L8.24 4.922H6.01L15.841 19z"/>
+</svg>
+
     ),
   },
   {
@@ -52,12 +53,7 @@ const Footer = () => {
           <p className="mt-4 text-gray-300">
             Discover amazing digital art, connect with creators, and explore new trends.
           </p>
-          <ul className="space-y-2 mt-6">
-            <li><Link to="/all-art" className="hover:text-orange-400">All Art</Link></li>
-            <li><Link to="/add-art" className="hover:text-orange-400">Add Art</Link></li>
-            <li><Link to="/profile" className="hover:text-orange-400">Profile</Link></li>
-            <li><Link to="/auth/login" className="hover:text-orange-400">Login</Link></li>
-          </ul>
+          
         </div>
 
         {/* Resources */}

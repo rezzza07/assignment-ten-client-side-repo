@@ -7,7 +7,7 @@ const FeaturedArts = ({ featuredArtsPromise }) => {
 
     return (
         <section className='my-16' >
-            <h2 className="text-5xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700">
+            <h2 className="text-5xl font-bold mb-6 text-center text-transparent bg-clip-text bg-linear-to-r from-orange-500 via-pink-500 to-purple-700">
                 Featured Arts
             </h2>
 

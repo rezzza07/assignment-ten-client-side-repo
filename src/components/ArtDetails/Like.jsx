@@ -1,13 +1,82 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useParams } from "react-router";
 
 const Like = () => {
-  const [liked, setLiked] = useState(false);
-  const [count, setCount] = useState(120); // starting like count
+  const { id } = useParams();
+  const { user } = useContext(AuthContext);
 
-  const handleLike = () => {
+  const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!id || !user) return;
+
+    const headers = {};
+    if (user?.accessToken)
+      headers["Authorization"] = `Bearer ${user.accessToken}`;
+    else if (user?.token)
+      headers["Authorization"] = `Bearer ${user.token}`;
+
+    fetch(`http://localhost:3000/arts/${id}`, { headers })
+      .then((res) => res.json())
+      .then((data) => {
+        const art = data.result;
+
+        setLikes(art.likeCount || 0);
+
+        if (art.likedBy && user?.email) {
+          setLiked(art.likedBy.includes(user.email));
+        }
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Load Like Error:", err);
+        setLoading(false);
+      });
+
+  }, [id, user]);
+
+
+
+  const handleLike = async () => {
+    if (!user) return;
+
+    // optimistic update
     setLiked(!liked);
-    setCount((prev) => prev + (liked ? -1 : 1));
+    setLikes(liked ? likes - 1 : likes + 1);
+
+    try {
+      const headers = { "Content-Type": "application/json" };
+      if (user?.accessToken)
+        headers["Authorization"] = `Bearer ${user.accessToken}`;
+      else if (user?.token)
+        headers["Authorization"] = `Bearer ${user.token}`;
+
+      const res = await fetch(
+        `http://localhost:3000/arts/${id}/toggle-like`,
+        { method: "POST", headers }
+      );
+
+      const data = await res.json();
+
+      if (!data.success) throw new Error("Failed");
+
+    
+      setLikes(data.likeCount);
+      setLiked(data.liked);
+
+    } catch (err) {
+      console.error("Like API Error:", err);
+
+      setLiked(liked);
+      setLikes(likes);
+    }
   };
+
+  if (loading) return <span className="text-white">Loading...</span>;
 
   return (
     <button
@@ -15,12 +84,8 @@ const Like = () => {
       className={`group flex items-center gap-3 rounded-full border border-pink-600 px-5 py-2 font-semibold transition-all duration-300
         ${liked ? "bg-pink-600 text-white" : "text-pink-600 hover:bg-pink-50"}`}
     >
-      {/* Like Text */}
-      <span className="transition-transform duration-300 group-hover:translate-x-1">
-        {liked ? "LIKED" : "LIKE"}
-      </span>
+      <span>{liked ? "LIKED" : "LIKE"}</span>
 
-      {/* Heart Icon */}
       <svg
         className={`size-6 transition-all duration-300 ${
           liked
@@ -40,14 +105,7 @@ const Like = () => {
         />
       </svg>
 
-      {/* Like Count */}
-      <span
-        className={`text-sm font-medium transition-all duration-300 ${
-          liked ? "text-white" : "text-pink-600"
-        }`}
-      >
-        {count}
-      </span>
+      <span className="text-sm font-medium">{likes}</span>
     </button>
   );
 };

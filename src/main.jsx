@@ -2,6 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -74,14 +76,14 @@ const router = createBrowserRouter([
         element: (<PrivateRoute>
           <ArtDetails></ArtDetails>
         </PrivateRoute>),
-        loader: ({ params }) => fetch(`http://localhost:3000/arts/${params.id}`)
+        
       },
       {
         path: 'updateArt/:id',
         element: (<PrivateRoute>
           <UpdateArt></UpdateArt>
         </PrivateRoute>),
-        loader: ({ params }) => fetch(`http://localhost:3000/arts/${params.id}`)
+        
       }
     ]
   },
@@ -95,7 +97,18 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </AuthProvider>
-
   </StrictMode>
 )

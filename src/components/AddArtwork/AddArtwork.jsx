@@ -1,5 +1,5 @@
 import React, { use } from 'react';
-
+import { toast } from 'react-toastify';
 import { AuthContext } from '../../contexts/AuthContext';
 
 
@@ -22,7 +22,7 @@ const AddArtwork = () => {
       dimensions: e.target.dimensions.value,
       price: e.target.price.value,
       visibility: e.target.visibility.value,
-      likes: 0,
+      likes: e.target.likes.value,
       createdAt: new Date(),
 
     }
@@ -36,11 +36,13 @@ const AddArtwork = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        console.log(data);
+        toast.success("Artwork added successfully!");
+        e.target.reset();
       })
       .catch(err => {
-        console.log(err)
-
+        console.log(err);
+        toast.error("Failed to add artwork!");
       })
 
   }

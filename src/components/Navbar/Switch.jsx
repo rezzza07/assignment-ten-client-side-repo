@@ -1,346 +1,85 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
 
 const Switch = () => {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
   return (
-    <StyledWrapper>
-      <label className="switch">
-        <input type="checkbox" id="toggle" />
-        <span className="slider">
-          <div className="moons-hole">
-            <div className="moon-hole" />
-            <div className="moon-hole" />
-            <div className="moon-hole" />
-          </div>
-          <div className="black-clouds">
-            <div className="black-cloud" />
-            <div className="black-cloud" />
-            <div className="black-cloud" />
-          </div>
-          <div className="clouds">
-            <div className="cloud" />
-            <div className="cloud" />
-            <div className="cloud" />
-            <div className="cloud" />
-            <div className="cloud" />
-            <div className="cloud" />
-            <div className="cloud" />
-          </div>
-          <div className="stars">
-            <svg className="star" viewBox="0 0 20 20">
-              <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" />
-            </svg>
-            <svg className="star" viewBox="0 0 20 20">
-              <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" />
-            </svg>
-            <svg className="star" viewBox="0 0 20 20">
-              <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" />
-            </svg>
-            <svg className="star" viewBox="0 0 20 20">
-              <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" />
-            </svg>
-            <svg className="star" viewBox="0 0 20 20">
-              <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" />
-            </svg>
-          </div>
-        </span>
-      </label>
-    </StyledWrapper>
+    <button
+      onClick={toggleTheme}
+      className="
+        p-[3px]
+        rounded-full
+        bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700
+        shadow-md
+        transition active:scale-95
+      "
+    >
+      <div
+        className="
+          w-10 h-10
+          rounded-full
+          flex items-center justify-center
+          bg-base-100
+          transition
+        "
+      >
+        {theme === "light" ? (
+          <svg
+            className="w-6 h-6"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <defs>
+              <linearGradient id="sunGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f97316" />
+                <stop offset="50%" stopColor="#ec4899" />
+                <stop offset="100%" stopColor="#7e22ce" />
+              </linearGradient>
+            </defs>
+
+            <circle cx="12" cy="12" r="4" fill="url(#sunGradient)" />
+
+            <circle cx="12" cy="4" r="1.2" fill="url(#sunGradient)" />
+            <circle cx="12" cy="20" r="1.2" fill="url(#sunGradient)" />
+            <circle cx="4" cy="12" r="1.2" fill="url(#sunGradient)" />
+            <circle cx="20" cy="12" r="1.2" fill="url(#sunGradient)" />
+
+            <circle cx="6.5" cy="6.5" r="1.2" fill="url(#sunGradient)" />
+            <circle cx="17.5" cy="6.5" r="1.2" fill="url(#sunGradient)" />
+            <circle cx="6.5" cy="17.5" r="1.2" fill="url(#sunGradient)" />
+            <circle cx="17.5" cy="17.5" r="1.2" fill="url(#sunGradient)" />
+          </svg>
+        ) : (
+          <svg
+            className="w-6 h-6"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <defs>
+              <linearGradient id="moonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f97316" />
+                <stop offset="50%" stopColor="#ec4899" />
+                <stop offset="100%" stopColor="#7e22ce" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#moonGradient)"
+              d="M21.64 13.35A9 9 0 1110.65 2.36a7 7 0 1011 11z"
+            />
+          </svg>
+        )}
+      </div>
+    </button>
   );
-}
-
-const StyledWrapper = styled.div`
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 90px;
-    height: 40px;
-    border: 1px solid rgb(58, 58, 58);
-    border-radius: 22px;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: black;
-    border-radius: 20px;
-    transition: 0.4s;
-    overflow: hidden;
-    z-index: 2;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 30px;
-    width: 30px;
-    left: 4px;
-    bottom: 5px;
-    background-color: white;
-    transition: 1s;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-
-  .moons-hole {
-    content: "";
-    position: absolute;
-    opacity: 1;
-    transition: 1s;
-  }
-
-  .moon-hole {
-    position: absolute;
-    border-radius: 50%;
-    transform: translateX(0px);
-  }
-
-  .moon-hole:nth-child(1) {
-    background-color: rgb(85, 85, 85);
-    height: 5px;
-    width: 5px;
-    top: 26px;
-    left: 20px;
-  }
-
-  .moon-hole:nth-child(2) {
-    background-color: rgb(85, 85, 85);
-    height: 10px;
-    width: 10px;
-    top: 16px;
-    left: 7px;
-  }
-
-  .moon-hole:nth-child(3) {
-    background-color: rgb(85, 85, 85);
-    height: 4px;
-    width: 4px;
-    top: 12px;
-    left: 21px;
-  }
-
-  input:checked + .slider {
-    background-color: #62cff0;
-  }
-
-  input:checked + .slider:before {
-    transform: translateX(52px);
-    background-color: orange;
-  }
-
-  input:checked + .slider .moons-hole {
-    transform: translateX(52px);
-    opacity: 0;
-  }
-
-  .stars {
-    right: 6px;
-    top: 0;
-    bottom: 0;
-    transition: 1s;
-    transform: translateY(0px);
-  }
-
-  .star {
-    position: absolute;
-    fill: white;
-    animation: star-twinkle 2s infinite;
-    opacity: 1;
-  }
-
-  /* Posizionamento casuale dei puntini */
-  .star:nth-child(1) {
-    top: 5px;
-    right: 29px;
-    width: 20px;
-    animation-delay: 0.3s;
-  }
-
-  .star:nth-child(2) {
-    top: 18px;
-    right: 9px;
-    width: 15px;
-  }
-
-  .star:nth-child(3) {
-    top: 5px;
-    right: 15px;
-    width: 10px;
-    animation-delay: 0.6s;
-  }
-
-  .star:nth-child(4) {
-    top: 26px;
-    right: 28px;
-    width: 12px;
-    animation-delay: 0.9s;
-  }
-
-  .star:nth-child(5) {
-    top: 2px;
-    right: 50px;
-    width: 8px;
-    animation-delay: 1.2s;
-  }
-
-  input:checked + .slider .stars {
-    transform: translateY(-32px);
-    opacity: 0;
-  }
-
-  @keyframes star-twinkle {
-    0% {
-      transform: scale(1);
-    }
-
-    40% {
-      transform: scale(1.2);
-    }
-
-    80% {
-      transform: scale(0.8);
-    }
-
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  .clouds {
-    position: absolute;
-    left: 6px;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    transition: 1s;
-    transform: translateX(-55px);
-  }
-
-  .black-clouds {
-    position: absolute;
-    left: 6px;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    transition: 1s;
-    transform: translateX(-55px);
-    opacity: 0;
-    z-index: 0;
-  }
-
-  .black-cloud {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #555; /* Grigio più scuro per simulare nuvola */
-    opacity: 60%;
-    border-radius: 50%;
-    animation: cloud-move 6s infinite;
-    animation-delay: 1s;
-  }
-
-  .black-cloud:nth-child(1) {
-    top: 1px;
-    right: 3px;
-  }
-
-  .black-cloud:nth-child(2) {
-    top: 15px;
-    left: 9px;
-  }
-
-  .black-cloud:nth-child(3) {
-    top: 20px;
-    left: 27px;
-  }
-
-  input:checked + .slider .black-clouds {
-    transform: translateX(32px);
-    opacity: 1;
-  }
-
-  .cloud {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: white;
-    border-radius: 50%;
-    z-index: 1;
-    animation: cloud-move 6s infinite;
-  }
-
-  .cloud:nth-child(1) {
-    top: 0;
-    height: 21px;
-    width: 21px;
-    right: 14px;
-  }
-
-  .cloud:nth-child(2) {
-    height: 25px;
-    width: 25px;
-    border-radius: 50%;
-    top: 14px;
-    right: 6px;
-  }
-
-  .cloud:nth-child(3) {
-    height: 23px;
-    width: 23px;
-    top: 28px;
-    left: 4px;
-  }
-
-  .cloud:nth-child(4) {
-    top: 26px;
-    left: 20px;
-  }
-
-  .cloud:nth-child(5) {
-    top: 30px;
-    left: 30px;
-  }
-
-  .cloud:nth-child(6) {
-    top: 27px;
-    left: 46px;
-  }
-
-  .cloud:nth-child(7) {
-    top: 31px;
-    left: 58px;
-  }
-
-  input:checked + .slider .clouds {
-    transform: translateX(32px);
-    opacity: 1;
-  }
-
-  @keyframes cloud-move {
-    0% {
-      transform: translateX(-32px);
-    }
-
-    40% {
-      transform: translateX(-36px);
-    }
-
-    80% {
-      transform: translateX(-28px);
-    }
-
-    100% {
-      transform: translateX(-32px);
-    }
-  }`;
+};
 
 export default Switch;

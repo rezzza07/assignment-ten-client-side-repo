@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [error, setError] = useState("");
@@ -22,13 +23,16 @@ const Login = () => {
       })
       .catch((error) => {
         console.error("Login error:", error);
+        let errorMessage = "Login failed. Please check your credentials.";
+        
         if (error.code === "auth/wrong-password") {
-          setError("Incorrect password. Please try again.");
+          errorMessage = "Incorrect password. Please try again.";
         } else if (error.code === "auth/user-not-found") {
-          setError("No account found with this email.");
-        } else {
-          setError("Login failed. Please check your credentials.");
+          errorMessage = "No account found with this email.";
         }
+        
+        setError(errorMessage);
+        toast.error(errorMessage);
       });
   };
 
@@ -39,7 +43,9 @@ const Login = () => {
       })
       .catch((error) => {
         console.error(error);
-        setError("Google login failed. Please try again.");
+        const errorMessage = "Google login failed. Please try again.";
+        setError(errorMessage);
+        toast.error(errorMessage);
       });
   };
 
@@ -47,7 +53,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-md w-full rounded-3xl p-[3px] bg-gradient-to-br from-orange-500 via-pink-500 to-purple-700">
         <div className="w-full rounded-3xl bg-gray-900 shadow-2xl overflow-hidden p-8 space-y-8 backdrop-blur-sm">
-          <h2 className="text-center text-4xl font-extrabold bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
+          <h2 className="text-center text-4xl font-extrabold bg-linear-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
             Welcome Back
           </h2>
 
