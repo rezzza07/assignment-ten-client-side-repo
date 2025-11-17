@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import Favorite from "./Favorite";
 import { useNavigate, useParams } from "react-router";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
 import { AuthContext } from "../../contexts/AuthContext";
-import Like from "./Like";
+import { FaHeart } from "react-icons/fa";
 
 const ArtDetails = () => {
   const { id } = useParams();
@@ -16,20 +15,18 @@ const ArtDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    console.log('ArtDetails mounted, id:', id, 'user:', user);
-    
     if (!id) {
-      console.error('No id provided');
-      setError('No artwork ID provided');
+      setError("No artwork ID provided");
       setLoading(false);
       return;
     }
 
     if (!user) {
-      console.error('User not authenticated');
-      setError('Please log in to view artwork');
+      setError("Please log in to view artwork");
       setLoading(false);
       return;
     }
@@ -38,49 +35,26 @@ const ArtDetails = () => {
     setError(null);
 
     const url = `http://localhost:3000/arts/${id}`;
-    console.log('Fetching from:', url, 'with user:', user.email);
-
-    // Build headers with auth token
-    const headers = {
-      'Content-Type': 'application/json'
-    };
-    
-    // Try different token locations
-    if (user.accessToken) {
-      headers['Authorization'] = `Bearer ${user.accessToken}`;
-    } else if (user.token) {
-      headers['Authorization'] = `Bearer ${user.token}`;
-    }
-    
-    console.log('Request headers:', headers);
+    const headers = { "Content-Type": "application/json" };
+    if (user.accessToken) headers["Authorization"] = `Bearer ${user.accessToken}`;
+    else if (user.token) headers["Authorization"] = `Bearer ${user.token}`;
 
     fetch(url, { headers })
-      .then(res => {
-        console.log('Response received:', res.status, res.statusText);
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-        }
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         return res.json();
       })
-      .then(data => {
-        console.log('Data received:', data);
-        // Handle both { result: art } and direct art object
+      .then((data) => {
         const artData = data.result ?? data;
-        console.log('Parsed art:', artData);
-        
-        if (!artData || !artData.title) {
-          throw new Error('Invalid artwork data');
-        }
-        
+        if (!artData || !artData.title) throw new Error("Invalid artwork data");
         setArt(artData);
+        setLikes(artData.likes || 0); 
         setLoading(false);
       })
-      .catch(err => {
-        console.error('Fetch error:', err.message);
-        setError(err.message || 'Failed to load artwork');
+      .catch((err) => {
+        setError(err.message || "Failed to load artwork");
         setLoading(false);
       });
-
   }, [id, user]);
 
   if (loading) return <Loading />;
@@ -107,11 +81,22 @@ const ArtDetails = () => {
     );
   }
 
+  // Handle like click
+  const handleLike = () => {
+    if (!user) {
+      toast.error("Please log in to like this artwork");
+      return;
+    }
+    if (liked) return; 
+    setLikes(likes + 1);
+    setLiked(true);
+ 
+  };
+
   return (
     <div className="min-h-screen bg-transparent text-white flex items-center justify-center p-6">
-  <div className="relative rounded-2xl bg-linear-to-r from-orange-500 via-pink-500 to-purple-700 p-0.5 shadow-2xl max-w-3xl w-full">
+      <div className="relative rounded-2xl p-0.5 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 shadow-2xl max-w-3xl w-full">
         <div className="rounded-2xl bg-gray-900 p-6 space-y-6">
-
           {/* ART IMAGE */}
           <img
             src={art.image}
@@ -130,24 +115,42 @@ const ArtDetails = () => {
 
           {/* ARTIST */}
           <div className="flex items-center gap-4 mt-6">
-            <img
-              src={art.photo}
-              alt={art.name}
-              className="w-16 h-16 rounded-full border border-transparent"
-            />
+            {/* Gradient Circular Border */}
+            <div className="p-[3px] rounded-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700">
+              <img
+                src={art.photo}
+                alt={art.name}
+                className="w-16 h-16 rounded-full object-cover bg-gray-900"
+              />
+            </div>
+
             <div>
-              <h3 className="text-xl font-semibold">{art.name}</h3>
+              <h3 className="text-xl font-semibold">
+                {art.name} 
+              </h3>
               <p className="text-gray-300 text-sm">{art.email}</p>
             </div>
           </div>
 
           {/* ACTIONS */}
           <div className="flex items-center gap-4 mt-6 flex-wrap">
-            <Like></Like>
+            
+            <button
+              onClick={handleLike}
+              className={`flex items-center gap-2 px-5 py-2 rounded-full font-semibold transition-all duration-300
+              ${liked
+                ? "bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 text-white cursor-not-allowed"
+                : "border border-pink-500 text-pink-500 hover:bg-gradient-to-r hover:from-orange-500 hover:via-pink-500 hover:to-purple-700 hover:text-white"
+              }`}
+            >
+              <FaHeart></FaHeart> {liked ? "Liked" : "Like"} {likes}
+            </button>
+
+            {/* Favorite Button */}
             <button
               onClick={async () => {
                 if (!user?.email) {
-                  toast.error('Please log in to add favorites');
+                  toast.error("Please log in to add favorites");
                   return;
                 }
 
@@ -161,38 +164,40 @@ const ArtDetails = () => {
                 };
 
                 try {
-                  const headers = { 'Content-Type': 'application/json' };
-                  if (user.accessToken) headers['Authorization'] = `Bearer ${user.accessToken}`;
-                  else if (user.token) headers['Authorization'] = `Bearer ${user.token}`;
+                  const headers = { "Content-Type": "application/json" };
+                  if (user.accessToken)
+                    headers["Authorization"] = `Bearer ${user.accessToken}`;
+                  else if (user.token)
+                    headers["Authorization"] = `Bearer ${user.token}`;
 
-                  const res = await fetch('http://localhost:3000/favorites', {
-                    method: 'POST',
+                  const res = await fetch("http://localhost:3000/favorites", {
+                    method: "POST",
                     headers,
                     body: JSON.stringify(fav),
                   });
 
                   if (!res.ok) {
                     const text = await res.text();
-                    throw new Error(`Failed to add favorite: ${res.status} ${text}`);
+                    throw new Error(
+                      `Failed to add favorite: ${res.status} ${text}`
+                    );
                   }
 
                   await res.json();
-                  toast.success('Added to favorites');
-                  navigate('/myFavorites');
+                  toast.success("Added to favorites");
+                  navigate("/myFavorites");
                 } catch (err) {
-                  console.error('Add to favorites error:', err);
-                  toast.error('Could not add to favorites');
+                  toast.error("Could not add to favorites");
                 } finally {
                   setAdding(false);
                 }
               }}
               disabled={adding}
-              className={`${adding ? 'opacity-60 pointer-events-none' : ''}`}
+              className={`${adding ? "opacity-60 pointer-events-none" : ""}`}
             >
               <Favorite />
             </button>
           </div>
-
         </div>
       </div>
     </div>

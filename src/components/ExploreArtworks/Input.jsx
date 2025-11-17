@@ -4,8 +4,8 @@ const Input = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload
-    onSearch(searchValue); // Trigger search in parent
+    e.preventDefault(); 
+    onSearch(searchValue); 
   };
 
   return (

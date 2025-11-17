@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router';
 import RegisterButton from './RegisterButton';
 import LoginButton from './LoginButton';
@@ -6,88 +6,184 @@ import Switch from './Switch';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const Navbar = () => {
-  const { user, logOut } = use(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
 
   const handleLogOut = () => {
-    logOut()
-      .then(() => {})
-      .catch((error) => console.log(error));
+    logOut().catch((error) => console.log(error));
   };
 
   const links = (
     <>
-      <li><NavLink to="/">Home</NavLink></li>
-      <li><NavLink to="/exploreArtworks">Explore Artworks</NavLink></li>
+      <li>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
+          }
+        >
+          Home
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink
+          to="/exploreArtworks"
+          className={({ isActive }) =>
+            `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
+          }
+        >
+          Explore Artworks
+        </NavLink>
+      </li>
 
       {user && (
         <>
-          <li><NavLink to="/addArtwork">Add Artwork</NavLink></li>
-          <li><NavLink to="/myGallery">My Gallery</NavLink></li>
-          <li><NavLink to="/myFavorites">My Favorites</NavLink></li>
+          <li>
+            <NavLink
+              to="/addArtwork"
+              className={({ isActive }) =>
+                `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
+              }
+            >
+              Add Artwork
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/myGallery"
+              className={({ isActive }) =>
+                `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
+              }
+            >
+              My Gallery
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/myFavorites"
+              className={({ isActive }) =>
+                `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
+              }
+            >
+              My Favorites
+            </NavLink>
+          </li>
         </>
       )}
     </>
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm px-5 py-4">
+    <div className="navbar bg-base-100 shadow-sm px-4 lg:px-6 py-3 sticky top-0 z-50">
+
+      {/* LEFT — LOGO + MOBILE MENU */}
       <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+        {/* Mobile menu icon */}
+        <div className="dropdown lg:hidden">
+          <div tabIndex={0} role="button" className="btn btn-ghost p-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
               fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
               viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16" />
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </div>
+
+          {/* Mobile dropdown */}
           <ul
-            tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box w-56 mt-3 p-3 shadow z-50"
+          >
             {links}
+
+            {/* Auth buttons mobile */}
+            <div className="mt-3">
+              {!user ? (
+                <div className="flex flex-col gap-2">
+                  <Link to="/login"><LoginButton /></Link>
+                  <Link to="/register"><RegisterButton /></Link>
+                </div>
+              ) : (
+                <button
+                  onClick={handleLogOut}
+                  className="py-2 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 text-white rounded-lg"
+                >
+                  Sign Out
+                </button>
+              )}
+            </div>
           </ul>
         </div>
 
-        <h1 className="text-3xl font-bold 
-          bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 
-          bg-clip-text text-transparent">
+        {/* Logo */}
+        <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
           artopia
         </h1>
       </div>
 
+      {/* CENTER — DESKTOP MENU */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{links}</ul>
+        <ul className="menu menu-horizontal px-1 gap-2">{links}</ul>
       </div>
 
-      <div className="navbar-end gap-4 flex items-center">
+      {/* RIGHT — THEME + AUTH */}
+      <div className="navbar-end flex items-center gap-4">
+
+        {/* Theme Switch */}
         <Switch />
 
+        {/* Auth */}
         {user ? (
-          <div className="flex items-center gap-2">
-            {/* User Profile Picture */}
+          <div className="relative group">
             <img
               src={user.photoURL || "/default-avatar.png"}
               alt={user.displayName || "User"}
-              className="w-10 h-10 rounded-full border-2 border-pink-500"
+              className="w-10 h-10 rounded-full border-2 border-pink-500 cursor-pointer"
             />
 
-            {/* Sign Out Button */}
-            <button
-              onClick={handleLogOut}
-              className="btn bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 text-white border-none hover:opacity-90 transition"
-            >
-              Sign Out
-            </button>
+            <div className="absolute right-0 mt-3 w-56 bg-base-100 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50 p-4">
+              <p className="text-center font-semibold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 mb-3">
+                {user.displayName || "User"}
+              </p>
+
+              <button
+                onClick={handleLogOut}
+                className="w-full py-2 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 text-white rounded-lg hover:opacity-90 transition"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="flex gap-2">
+          <div className="hidden lg:flex gap-2">
             <Link to="/login"><LoginButton /></Link>
             <Link to="/register"><RegisterButton /></Link>
           </div>
         )}
+
       </div>
+
+      {/* active underline */}
+      <style>
+        {`
+          .active-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            border-radius: 2px;
+            background: linear-gradient(to right, #f97316, #ec4899, #8b5cf6);
+          }
+        `}
+      </style>
     </div>
   );
 };

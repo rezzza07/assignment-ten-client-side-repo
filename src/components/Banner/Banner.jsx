@@ -43,7 +43,7 @@ const Banner = () => {
     <section className="">
       <div className="relative overflow-hidden h-[520px] md:h-[620px] lg:h-[760px] flex items-center bg-[#0b0b0b]">
 
-        {/* Background images (fade transition) */}
+       
         {slides.map((slide, index) => (
           <img
             key={index}
@@ -55,7 +55,7 @@ const Banner = () => {
           />
         ))}
 
-        {/* Subtle left gradient fade */}
+        
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
 
         {/* Text content */}
@@ -95,7 +95,7 @@ const Banner = () => {
           </div>
         </div>
 
-        {/* Navigation buttons with more side space */}
+        
         <button
           onClick={prevSlide}
           className={`absolute left-10 md:left-16 top-1/2 -translate-y-1/2 z-30 text-white p-4 rounded-full transition-all duration-300 ${gradient} hover:opacity-90 shadow-lg`}

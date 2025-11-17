@@ -11,7 +11,7 @@ const MyFavorites = () => {
 
 
     useEffect(() => {
-        // If user not available, clear and stop loading
+       
         if (!user?.email) {
             setArts([]);
             setLoading(false);
@@ -23,11 +23,7 @@ const MyFavorites = () => {
         fetch(`http://localhost:3000/my-favorites?email=${user.email}`)
             .then(res => res.json())
             .then(data => {
-                // Normalize possible response shapes:
-                // - { success: true, result: [...] }
-                // - an array directly
-                // - { data: [...] }
-                // - a single object
+            
                 const normalized = Array.isArray(data)
                     ? data
                     : Array.isArray(data?.result)
@@ -38,8 +34,7 @@ const MyFavorites = () => {
                                 ? [data]
                                 : [];
 
-                // Each favorite document may store the real art under `art`.
-                // Unwrap to plain art objects for the UI.
+      
                 const artworks = normalized.map(item => item?.art ?? item);
 
                 setArts(artworks);

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from 'react-toastify';
 import { getAuth } from "firebase/auth";
+import Loading from '../Loading/Loading';
 
 const UpdateArt = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [art, setArt] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ---------------------------
-  // FETCH ART USING useEffect
-  // ---------------------------
   useEffect(() => {
     const fetchArt = async () => {
       try {
@@ -51,21 +50,21 @@ const UpdateArt = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
-        Loading...
+        <Loading></Loading>
       </div>
     );
   }
 
   if (!art) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-500">
+      <div className="min-h-screen flex items-center mb-7 justify-center text-red-500">
         Artwork not found.
       </div>
     );
   }
 
 
-  // UPDATE HANDLER
+
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,6 +99,7 @@ const UpdateArt = () => {
       }
 
       toast.success("Artwork updated successfully!");
+      navigate("/myGallery");
     } catch (err) {
       console.error(err);
       toast.error("Failed to update artwork.");

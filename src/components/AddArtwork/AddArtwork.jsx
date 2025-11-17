@@ -1,12 +1,15 @@
 import React, { use } from 'react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router';
+
 
 
 const AddArtwork = () => {
 
   const { user } = use(AuthContext)
-
+  const navigate = useNavigate();
+  
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -22,7 +25,7 @@ const AddArtwork = () => {
       dimensions: e.target.dimensions.value,
       price: e.target.price.value,
       visibility: e.target.visibility.value,
-      likes: e.target.likes.value,
+      likes: 0,
       createdAt: new Date(),
 
     }
@@ -38,6 +41,8 @@ const AddArtwork = () => {
       .then(data => {
         console.log(data);
         toast.success("Artwork added successfully!");
+        navigate("/exploreArtworks");
+        
         e.target.reset();
       })
       .catch(err => {
