@@ -1,16 +1,10 @@
-import React, { useState } from "react";
-import { FaStar } from "react-icons/fa"; // You can use FaBookmark if you prefer
+import React from "react";
+import { FaStar } from "react-icons/fa";
 
-const Favourite = () => {
-  const [isFavourite, setIsFavourite] = useState(false);
-
-  const toggleFavourite = () => {
-    setIsFavourite((prev) => !prev);
-  };
-
+const Favourite = ({ isFavourite, onToggle }) => {
   return (
     <button
-      onClick={toggleFavourite}
+      onClick={onToggle}
       className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold transition-all duration-300 active:scale-95 ${
         isFavourite
           ? "bg-yellow-500 text-black shadow-lg"

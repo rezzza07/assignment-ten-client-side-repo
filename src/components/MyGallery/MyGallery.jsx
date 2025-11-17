@@ -13,20 +13,33 @@ const MyGallery = () => {
 
     setLoading(true);
 
-    fetch(`http://localhost:3000/arts?email=${user.email}`)
-      .then(res => res.json())
-      .then(data => {
+    const url = `http://localhost:3000/arts?email=${user.email}`;
+    const headers = { "Content-Type": "application/json" };
+
+    // Add token if available
+    if (user.accessToken) {
+      headers["Authorization"] = `Bearer ${user.accessToken}`;
+    } else if (user.token) {
+      headers["Authorization"] = `Bearer ${user.token}`;
+    }
+
+    fetch(url, { headers })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
         setArts(data);
         setLoading(false);
       })
-      .catch(err => {
-        console.log(err);
+      .catch((err) => {
+        console.log("Error fetching gallery:", err);
         setLoading(false);
       });
   }, [user]);
 
   if (loading) {
-    return <Loading></Loading>
+    return <Loading />;
   }
 
   return (
