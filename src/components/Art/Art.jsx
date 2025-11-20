@@ -20,7 +20,7 @@ export const Art = ({ art, isMyGallery }) => {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        fetch(`http://localhost:3000/arts/${art._id}`, {
+        fetch(`https://artopia-assignment.vercel.app/arts/${art._id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

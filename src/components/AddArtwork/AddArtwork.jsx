@@ -30,7 +30,7 @@ const AddArtwork = () => {
 
     }
 
-    fetch('http://localhost:3000/arts', {
+    fetch('https://artopia-assignment.vercel.app/arts', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -13,7 +13,7 @@ const MyGallery = () => {
 
     setLoading(true);
 
-    const url = `http://localhost:3000/arts?email=${user.email}`;
+    const url = `https://artopia-assignment.vercel.app/arts?email=${user.email}`;
     const headers = { "Content-Type": "application/json" };
 
     // Add token if available

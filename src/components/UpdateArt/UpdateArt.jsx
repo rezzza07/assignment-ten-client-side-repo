@@ -23,7 +23,7 @@ const UpdateArt = () => {
 
         const token = await user.getIdToken();
 
-        const res = await fetch(`http://localhost:3000/arts/${id}`, {
+        const res = await fetch(`https://artopia-assignment.vercel.app/arts/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -83,7 +83,7 @@ const UpdateArt = () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/arts/${id}`, {
+      const res = await fetch(`https://artopia-assignment.vercel.app/arts/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

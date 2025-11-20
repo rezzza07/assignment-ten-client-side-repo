@@ -1,68 +1,81 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import Art from '../Art/Art';
-import Loading from '../Loading/Loading';
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import Art from "../Art/Art";
+import Loading from "../Loading/Loading";
 
 const MyFavorites = () => {
+  const { user } = useContext(AuthContext);
+  const [arts, setArts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const { user } = useContext(AuthContext);
-    const [arts, setArts] = useState([]);
-    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (!user?.email) {
+      setArts([]);
+      setLoading(false);
+      return;
+    }
 
-
-    useEffect(() => {
-       
-        if (!user?.email) {
-            setArts([]);
-            setLoading(false);
-            return;
-        }
-
+    const loadFavorites = async () => {
+      try {
         setLoading(true);
 
-        fetch(`http://localhost:3000/my-favorites?email=${user.email}`)
-            .then(res => res.json())
-            .then(data => {
-            
-                const normalized = Array.isArray(data)
-                    ? data
-                    : Array.isArray(data?.result)
-                        ? data.result
-                        : Array.isArray(data?.data)
-                            ? data.data
-                            : data && typeof data === 'object'
-                                ? [data]
-                                : [];
+        const res = await fetch(
+          `https://artopia-assignment.vercel.app/my-favorites?email=${user.email}`
+        );
+        const data = await res.json();
 
-      
-                const artworks = normalized.map(item => item?.art ?? item);
+        const favorites = data?.result || [];
 
-                setArts(artworks);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error('Failed to load favorites:', err);
-                setArts([]);
-                setLoading(false);
-            });
-    }, [user]);
+        // Fetch the actual art item for each favorite
+        const fullArts = await Promise.all(
+          favorites.map(async (fav) => {
+            try {
+              const res = await fetch(
+                `https://artopia-assignment.vercel.app/arts/${fav.artId}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${await user.getIdToken()}`,
+                  },
+                }
+              );
+              const a = await res.json();
+              return a?.result || null;
+            } catch (err) {
+              console.error("Failed to fetch art:", err);
+              return null;
+            }
+          })
+        );
 
-    if (loading) {
-        return <Loading></Loading>
-    }
-    return (
-        <div className=''>
-            <div className="text-5xl font-bold mt-10 mb-20 text-center text-transparent bg-clip-text bg-linear-to-r from-orange-500 via-pink-500 to-purple-700">
-                My Favorites</div>
-            <div className='max-w-[1300px] mx-auto py-10 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center'>
+        const filtered = fullArts.filter((a) => a !== null);
 
-                {arts.map((art) => (
-                    <Art key={art._id || art.id} art={art} isMyGallery={false} />
-                ))}
+        setArts(filtered);
+      } catch (err) {
+        console.error("Failed to load favorites:", err);
+        setArts([]);
+      }
 
-            </div>
-        </div>
-    );
+      setLoading(false);
+    };
+
+    loadFavorites();
+  }, [user]);
+
+  if (loading) return <Loading />;
+
+  return (
+    <div>
+      <div className="text-5xl font-bold mt-10 mb-20 text-center text-transparent bg-clip-text bg-linear-to-r from-orange-500 via-pink-500 to-purple-700">
+        My Favorites
+      </div>
+
+      <div className="max-w-[1300px] mx-auto py-10 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+        {arts.map((art) => (
+          <Art key={art._id} art={art} isMyGallery={false} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default MyFavorites;

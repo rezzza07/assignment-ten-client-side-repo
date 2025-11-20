@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       {
         path: 'exploreArtworks',
         Component: ExploreArtworks,
-        loader: () => fetch('http://localhost:3000/arts')
+        loader: () => fetch('https://artopia-assignment.vercel.app/arts')
       },
       {
         path: 'register',

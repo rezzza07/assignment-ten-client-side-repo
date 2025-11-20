@@ -5,7 +5,7 @@ import TopArtists from '../TopArtists/TopArtists';
 import CommunityHighlights from '../CommunityHighlights/CommunityHighlights';
 
 
-const featuredArtsPromise = fetch('http://localhost:3000/featured-arts')
+const featuredArtsPromise = fetch('https://artopia-assignment.vercel.app/featured-arts')
 .then(res=>res.json());
 
 const Home = () => {

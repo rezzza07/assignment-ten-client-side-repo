@@ -19,7 +19,7 @@ const Like = () => {
     else if (user?.token)
       headers["Authorization"] = `Bearer ${user.token}`;
 
-    fetch(`http://localhost:3000/arts/${id}`, { headers })
+    fetch(`https://artopia-assignment.vercel.app/arts/${id}`, { headers })
       .then((res) => res.json())
       .then((data) => {
         const art = data.result;
@@ -56,7 +56,7 @@ const Like = () => {
         headers["Authorization"] = `Bearer ${user.token}`;
 
       const res = await fetch(
-        `http://localhost:3000/arts/${id}/toggle-like`,
+        `https://artopia-assignment.vercel.app/arts/${id}/toggle-like`,
         { method: "POST", headers }
       );
 

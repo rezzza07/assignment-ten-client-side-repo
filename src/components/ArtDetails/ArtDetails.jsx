@@ -6,7 +6,6 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { FaHeart } from "react-icons/fa";
 import Favourite from "./Favorite";
 
-
 const ArtDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ const ArtDetails = () => {
     const headers = { "Content-Type": "application/json" };
     if (user.accessToken) headers["Authorization"] = `Bearer ${user.accessToken}`;
 
-    fetch(`http://localhost:3000/arts/${id}`, { headers })
+    fetch(`https://artopia-assignment.vercel.app/arts/${id}`, { headers })
       .then((res) => res.json())
       .then((data) => {
         const artData = data.result ?? data;
@@ -40,10 +39,7 @@ const ArtDetails = () => {
         setLikes(artData.likes || 0);
         setLoading(false);
 
-        // Check if this art is in favorites
-        fetch(
-          `http://localhost:3000/favorites/check?email=${user.email}&artId=${artData._id}`
-        )
+        fetch(`https://artopia-assignment.vercel.app/favorites/check?email=${user.email}&artId=${artData._id}`)
           .then((res) => res.json())
           .then((fav) => {
             setIsFavourite(fav.isFavorite);
@@ -65,7 +61,6 @@ const ArtDetails = () => {
       </div>
     );
 
-  // Like handler
   const handleLike = () => {
     if (!user) return toast.error("Login required");
     if (liked) return;
@@ -74,7 +69,6 @@ const ArtDetails = () => {
     setLiked(true);
   };
 
-  // Toggle Favourite handler
   const toggleFavourite = async () => {
     if (!user?.email) return toast.error("Please log in first");
 
@@ -84,7 +78,7 @@ const ArtDetails = () => {
         artId: art._id,
       };
 
-      const res = await fetch("http://localhost:3000/favorites/toggle", {
+      const res = await fetch("https://artopia-assignment.vercel.app/favorites/toggle", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -108,30 +102,46 @@ const ArtDetails = () => {
     <div className="min-h-screen bg-transparent text-white flex items-center justify-center p-6">
       <div className="relative rounded-2xl max-w-3xl w-full p-0.5 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700">
         <div className="rounded-2xl bg-gray-900 p-6 space-y-6">
-          <img
-            src={art.image}
-            alt={art.title}
-            className="w-full h-96 object-cover rounded-xl"
-          />
+          
+          <div className="p-1 rounded-2xl ">
+            <img
+              src={art.image}
+              alt={art.title}
+              className="w-full h-96 object-cover rounded-2xl"
+            />
+          </div>
 
-          <h2 className="text-3xl font-bold">{art.title}</h2>
+          {/* Profile */}
+          <div className="flex items-center gap-4">
+            <div className="p-1 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400">
+              <img
+                src={art.photo}
+                alt="profile"
+                className="w-16 h-16 rounded-full object-cover"
+              />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold">{art.title}</h2>
+              <p className="text-gray-300">Medium: {art.mediumTools}</p>
+            </div>
+          </div>
 
-          <p className="text-gray-300">Medium: {art.mediumTools}</p>
-          <p className="text-gray-400">{art.description}</p>
+          {/* Gradient Rounded Border for main art photo */}
+
+
+          <p className="text-gray-400">
+            <span className="font-bold text-white">Description:</span> {art.description}
+          </p>
 
           <div className="flex items-center gap-3 mt-6">
             <button
               onClick={handleLike}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full font-semibold ${
-                liked
-                  ? "bg-pink-600 text-white"
-                  : "border border-pink-500 text-pink-500"
-              }`}
+              className={`flex items-center gap-2 px-5 py-2 rounded-full font-semibold ${liked ? "bg-pink-600 text-white" : "border border-pink-500 text-pink-500"
+                }`}
             >
               <FaHeart /> {liked ? "Liked" : "Like"} {likes}
             </button>
 
-            {/* Favourite Toggle Button */}
             <Favourite isFavourite={isFavourite} onToggle={toggleFavourite} />
           </div>
         </div>
