@@ -1,16 +1,65 @@
-# React + Vite
+📚 Artopia Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔍 Project Purpose
 
-Currently, two official plugins are available:
+Artopia is a full-stack web application designed for art lovers and creators to showcase, interact with, and manage artwork. Users can add, update, and delete their own artwork, while also liking and adding favorites to their collection. Admins can manage artwork, users, and interactions efficiently. The platform emphasizes usability, performance, and a visually appealing modern UI/UX, making it a hub for creative expression.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🌐 Live Website
 
-## React Compiler
+🔗 Live URL: https://artopia-assignment-rezzza07.netlify.app/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🛠️ Technologies & NPM Packages Used
 
-## Expanding the ESLint configuration
+Frontend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Vite – Fast development environment
+
+React – Component-based UI library
+
+React Router – Client-side routing
+
+Tailwind CSS – Utility-first CSS framework
+
+DaisyUI – Tailwind-based UI components
+
+Google Fonts – Clean and readable typography
+
+React Icons – Icon library
+
+Axios – HTTP client for API requests
+
+TanStack Query (React Query) – Server-state management
+
+React Hook Form – Form handling and validation
+
+Firebase – Authentication and hosting
+
+SweetAlert2 – User-friendly alerts and confirmations
+
+React Lottie – Engaging animations
+
+Backend
+
+Node.js
+
+Express.js – REST API framework
+
+MongoDB – NoSQL database
+
+CORS – Cross-origin resource sharing
+
+dotenv – Environment variable management
+
+✨ Key Features
+
+User authentication and role-based access
+
+Add, update, and delete artwork
+
+Like and favorite artworks
+
+Admin dashboard for managing artwork and users
+
+Interactive UI with animations and alerts
+
+Responsive design for all devices
