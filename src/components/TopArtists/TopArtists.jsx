@@ -1,4 +1,5 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 
 const artists = [
   {
@@ -24,34 +25,60 @@ const artists = [
 ];
 
 const TopArtists = () => {
-  return (
-    <section className="py-16 rounded-lg text-white">
-      <div className="max-w-6xl mx-auto px-4 text-center">
-        <h2 className="text-5xl font-bold mb-20 text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700">
-          Top Artists of the Week
-        </h2>
+  const gradientText = "bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent";
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+  return (
+    <section className="py-24 relative overflow-hidden bg-gray-950">
+      {/* Subtle Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full -z-0 pointer-events-none opacity-20">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500 blur-[120px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-500 blur-[120px] rounded-full animate-pulse"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Header Section */}
+        <div className="text-center mb-20">
+          
+          <h2 className="text-5xl md:text-6xl font-black text-white leading-tight">
+            Top Artists of <span className={gradientText}>The Week</span>
+          </h2>
+        </div>
+
+        {/* Artists Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 justify-items-center">
           {artists.map((artist, i) => (
             <div
               key={i}
-              className="relative group w-[190px] h-[254px] mx-auto cursor-pointer"
+              className="relative group w-[220px] h-[280px] cursor-pointer"
             >
-              
-              <div className="absolute inset-0 -left-[5px] w-[200px] h-[264px] rounded-xl bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 blur-[1px] transition-transform duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:rotate-[-90deg] group-hover:scale-x-[1.34] group-hover:scale-y-[0.77]"></div>
+              {/* Animated Morphing Border Background */}
+              <div className="absolute inset-0 -left-[2px] -top-[2px] w-[224px] h-[284px] rounded-2xl bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 blur-[1px] transition-transform duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:rotate-[-90deg] group-hover:scale-x-[1.25] group-hover:scale-y-[0.8]"></div>
 
-              
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 blur-[20px] opacity-80 group-hover:blur-[30px] transition-all duration-700"></div>
+              {/* Glow Effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 blur-[15px] opacity-40 group-hover:opacity-100 group-hover:blur-[25px] transition-all duration-700"></div>
 
-              
-              <div className="relative z-10 bg-black rounded-lg flex flex-col justify-end items-center p-4 gap-3 w-[190px] h-[254px]">
-                <img
-                  src={artist.img}
-                  alt={artist.name}
-                  className="w-20 h-20 object-cover rounded-full border-2 border-pink-400 shadow-lg"
-                />
-                <h3 className="text-lg font-semibold">{artist.name}</h3>
-                <p className="text-sm text-gray-400">{artist.role}</p>
+              {/* Main Card Content */}
+              <div className="relative z-10 bg-slate-900 border border-white/10 rounded-xl flex flex-col justify-center items-center p-6 gap-4 w-[220px] h-[280px] transition-colors duration-500 group-hover:bg-black/80">
+                <div className="relative">
+                   <img
+                    src={artist.img}
+                    alt={artist.name}
+                    className="w-24 h-24 object-cover rounded-full border-4 border-white/5 shadow-2xl transition-transform duration-500 group-hover:scale-110 group-hover:border-pink-500/50"
+                  />
+                  {/* Active Indicator Dot */}
+                  <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 border-2 border-slate-900 rounded-full"></div>
+                </div>
+
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-white transition-colors duration-300 group-hover:text-orange-400">
+                    {artist.name}
+                  </h3>
+                  <p className="text-xs text-gray-400 font-medium tracking-wide uppercase mt-1">
+                    {artist.role}
+                  </p>
+                </div>
+
+                
               </div>
             </div>
           ))}

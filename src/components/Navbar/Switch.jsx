@@ -4,7 +4,13 @@ const Switch = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
     localStorage.setItem("theme", theme);
   }, [theme]);
 

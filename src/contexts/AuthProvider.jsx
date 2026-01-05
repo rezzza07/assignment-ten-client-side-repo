@@ -41,10 +41,29 @@ const AuthProvider = ({ children }) => {
   };
 
 
-  const updateUser = (profile) => {
-    if (!auth.currentUser) return Promise.reject("No user is logged in");
-    return updateProfile(auth.currentUser, profile);
-  };
+  const updateUser = async (name, photo) => {
+  if (!auth.currentUser) return Promise.reject("No user is logged in");
+
+  try {
+    // 1. Update Firebase Backend
+    await updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo
+    });
+
+    // 2. IMPORTANT: Manually update the local 'user' state 
+    // This forces React to notice the change without a reload
+    setUser({
+      ...auth.currentUser,
+      displayName: name,
+      photoURL: photo
+    });
+    
+    return Promise.resolve();
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import RegisterButton from './RegisterButton';
 import LoginButton from './LoginButton';
 import Switch from './Switch';
 import { AuthContext } from '../../contexts/AuthContext';
+import Logo from './Logo';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -24,7 +25,6 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-
       <li>
         <NavLink
           to="/exploreArtworks"
@@ -36,42 +36,46 @@ const Navbar = () => {
         </NavLink>
       </li>
 
+      <li>
+        <NavLink
+          to="/about"
+          className={({ isActive }) =>
+            `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
+          }
+        >
+          About Us
+        </NavLink>
+      </li>
+
+
+
       {user && (
         <>
           <li>
             <NavLink
-              to="/addArtwork"
+              to="/dashboard"
               className={({ isActive }) =>
                 `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
               }
             >
-              Add Artwork
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/myGallery"
-              className={({ isActive }) =>
-                `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
-              }
-            >
-              My Gallery
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/myFavorites"
-              className={({ isActive }) =>
-                `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
-              }
-            >
-              My Favorites
+              Dashboard
             </NavLink>
           </li>
         </>
       )}
+
+      <li>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) =>
+            `px-2 py-1 relative ${isActive ? 'active-link' : ''}`
+          }
+        >
+          Contact
+        </NavLink>
+      </li>
+
+
     </>
   );
 
@@ -121,21 +125,19 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Logo */}
-        <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
-          artopia
-        </h1>
+
+        <Logo></Logo>
       </div>
 
-      {/* CENTER — DESKTOP MENU */}
+
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-2">{links}</ul>
       </div>
 
-      {/* RIGHT — THEME + AUTH */}
+
       <div className="navbar-end flex items-center gap-4">
 
-        {/* Theme Switch */}
+
         <Switch />
 
         {/* Auth */}
@@ -169,7 +171,7 @@ const Navbar = () => {
 
       </div>
 
-      {/* active underline */}
+
       <style>
         {`
           .active-link::after {

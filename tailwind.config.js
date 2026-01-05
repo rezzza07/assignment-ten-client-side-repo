@@ -1,6 +1,9 @@
 
+/* eslint-disable no-undef */
+
 module.exports = {
   content: ["./src/**/*.{js,jsx}"],
+  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {
       keyframes: {

@@ -10,14 +10,15 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = (e, email, password) => {
+    if (e) e.preventDefault();
     setError(""); 
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
 
-    signInUser(email, password)
+    // If email/password provided (demo), use them, else get from form
+    const userEmail = email || e.target.email.value;
+    const userPassword = password || e.target.password.value;
+
+    signInUser(userEmail, userPassword)
       .then(() => {
         toast.success('Login Successful');
         navigate(location.state || "/");
@@ -49,6 +50,13 @@ const Login = () => {
         setError(errorMessage);
         toast.error(errorMessage);
       });
+  };
+
+  // Demo login: auto-fill & submit
+  const handleDemoLogin = () => {
+    const demoEmail = 'user@demo.com';
+    const demoPassword = '123Abc@134';
+    handleLogin(null, demoEmail, demoPassword);
   };
 
   return (
@@ -110,17 +118,24 @@ const Login = () => {
             <hr className="flex-grow border-white" />
           </div>
 
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center gap-4">
             <button
               onClick={handleGoogleLogin}
-              className="flex items-center justify-center gap-3 w-full py-2 px-4 bg-white rounded-md shadow-md hover:bg-gray-100 transition duration-200"
+              className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-md shadow-md hover:bg-gray-100 transition duration-200"
             >
               <FcGoogle className="text-2xl" />
               <span className="text-gray-700 font-medium">Google</span>
             </button>
+
+            <button
+              onClick={handleDemoLogin}
+              className="py-2 px-4 bg-gray-700 hover:bg-gray-600 rounded-md text-white font-medium"
+            >
+              Demo Login
+            </button>
           </div>
 
-          <div className="text-center text-gray-300 space-y-1">
+          <div className="text-center text-gray-300 mt-4">
             <p>
               Don’t have an account?{" "}
               <Link to="/register" className="text-white font-semibold hover:underline">

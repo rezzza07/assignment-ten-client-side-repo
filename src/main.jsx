@@ -20,6 +20,13 @@ import MyGallery from './components/MyGallery/MyGallery.jsx';
 import ArtDetails from './components/ArtDetails/ArtDetails.jsx';
 import UpdateArt from './components/UpdateArt/UpdateArt.jsx';
 import PrivateRoute from './contexts/PrivateRoutes.jsx';
+import DashboardLayout from './layout/DashboardLayout.jsx';
+import DashboardOverview from './components/Dashboard/DashboardOverview.jsx';
+import DashboardProfile from './components/Dashboard/DashboardProfile.jsx';
+import About from './components/About/About.jsx';
+import Contact from './components/Contact/Contact.jsx';
+import TermsAndConditions from './components/Footer/TermsAndConditions.jsx'
+import PrivacyPolicy from './components/Footer/PrivacyPolicy.jsx'
 
 
 
@@ -36,54 +43,70 @@ const router = createBrowserRouter([
       },
       {
         path: 'exploreArtworks',
-        Component: ExploreArtworks,
-        loader: () => fetch('https://artopia-assignment.vercel.app/arts')
+        Component: ExploreArtworks
+      },
+      {
+        path: 'about',
+        Component: About
+      },
+      {
+        path: 'contact',
+        Component: Contact
       },
       {
         path: 'register',
         Component: Register
       },
       {
+        path: 'terms-conditions',
+        Component: TermsAndConditions
+      },
+      {
+        path: 'privacy-policy',
+        Component: PrivacyPolicy
+      },
+      {
         path: 'login',
         Component: LogIn
       },
       {
-        path: 'addArtwork',
-        element: (
-          <PrivateRoute>
-            <AddArtwork></AddArtwork>
-          </PrivateRoute>
-        )
-      },
-      {
-        path: 'myFavorites',
-        element: (
-          <PrivateRoute>
-            <MyFavorites></MyFavorites>
-          </PrivateRoute>
-        )
-      },
-      {
-        path: 'myGallery',
-        element: (
-          <PrivateRoute>
-            <MyGallery></MyGallery>
-          </PrivateRoute>
-        )
-      },
-      {
         path: 'artDetails/:id',
-        element: (<PrivateRoute>
-          <ArtDetails></ArtDetails>
-        </PrivateRoute>),
+        Component: ArtDetails,
         
+      }
+    ]
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        Component: DashboardOverview
       },
       {
-        path: 'updateArt/:id',
-        element: (<PrivateRoute>
-          <UpdateArt></UpdateArt>
-        </PrivateRoute>),
-        
+        path: 'add-artwork',
+        Component: AddArtwork
+      },
+      {
+        path: 'my-gallery',
+        Component: MyGallery
+      },
+      {
+        path: 'my-favorites',
+        Component: MyFavorites
+      },
+      {
+        path: 'profile',
+        Component: DashboardProfile
+      },
+      {
+        path: 'update-art/:id',
+        Component: UpdateArt
       }
     ]
   },

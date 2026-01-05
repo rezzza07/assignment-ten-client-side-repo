@@ -10,65 +10,36 @@ const UpdateArt = () => {
   const [art, setArt] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Reusable Gradient and Input Classes
+  const gradientText = "bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent";
+  const inputClass = "w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white focus:ring-2 focus:ring-pink-500/50 outline-none transition-all";
+  const readOnlyClass = "w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-slate-900/50 text-gray-500 cursor-not-allowed";
+
   useEffect(() => {
     const fetchArt = async () => {
       try {
         const auth = getAuth();
         const user = auth.currentUser;
-
-        if (!user) {
-          toast.error("Unauthorized. Please log in again.");
-          return;
-        }
+        if (!user) return;
 
         const token = await user.getIdToken();
-
         const res = await fetch(`https://artopia-assignment.vercel.app/arts/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-
-        if (!res.ok) {
-          toast.error("Failed to load artwork.");
-          return;
-        }
 
         const data = await res.json();
         setArt(data?.result ?? data);
       } catch (err) {
-        console.error(err);
         toast.error("Error loading artwork.");
       } finally {
         setLoading(false);
       }
     };
-
     fetchArt();
   }, [id]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white">
-        <Loading></Loading>
-      </div>
-    );
-  }
-
-  if (!art) {
-    return (
-      <div className="min-h-screen flex items-center mb-7 justify-center text-red-500">
-        Artwork not found.
-      </div>
-    );
-  }
-
-
-
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = {
       image: e.target.image.value,
       title: e.target.title.value,
@@ -85,167 +56,116 @@ const UpdateArt = () => {
     try {
       const res = await fetch(`https://artopia-assignment.vercel.app/arts/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      const json = await res.json();
-
-      if (!res.ok) {
-        toast.error("Failed to update artwork.");
-        return;
-      }
-
+      if (!res.ok) throw new Error();
       toast.success("Artwork updated successfully!");
-      navigate("/myGallery");
+      window.dispatchEvent(new Event('artAdded'));
+      navigate("/dashboard/my-gallery");
     } catch (err) {
-      console.error(err);
       toast.error("Failed to update artwork.");
     }
   };
 
+  if (loading) return <Loading />;
+  if (!art) return <div className="text-center py-20 font-poppins text-red-500">Artwork not found.</div>;
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-transparent text-white transition-colors duration-300">
-      <div className="relative w-full max-w-2xl rounded-xl p-6 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 backdrop-blur-xl overflow-hidden border-2 border-transparent">
+    <div className="font-poppins max-w-4xl mx-auto pb-10 transition-colors duration-300">
+      {/* Header Section */}
+      <div className="mb-8">
+        <h2 className={`text-4xl font-extrabold ${gradientText}`}>
+          Update Masterpiece
+        </h2>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
+          Refine the details of your artwork to keep your gallery up to date.
+        </p>
+      </div>
 
-        <div className="absolute inset-0 rounded-xl p-[2px] bg-gray-900 pointer-events-none"></div>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <form onSubmit={handleSubmit} className="relative space-y-4">
-          <h2 className="text-4xl font-bold mb-14 text-center text-transparent bg-clip-text bg-linear-to-r from-orange-500 via-pink-500 to-purple-700">
-            Update Artwork
-          </h2>
-
-          {/* Name */}
-          <div>
-            <label className='label font-medium'>Name</label>
-            <input
-              type="text"
-              name="name"
-              defaultValue={art.name}
-              readOnly
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+        {/* Artist Info (Read Only) */}
+        <div className="space-y-6 md:col-span-2 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Artist Name</label>
+              <input type="text" name="name" value={art.name} readOnly className={readOnlyClass} />
+            </div>
+            <div>
+              <label className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Contact Email</label>
+              <input type="email" name="email" value={art.email} readOnly className={readOnlyClass} />
+            </div>
           </div>
+        </div>
 
-          {/* Email */}
+        {/* Artwork Details */}
+        <div className="space-y-6 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <h3 className="text-lg font-bold dark:text-white">Basic Details</h3>
           <div>
-            <label className='label font-medium'>Email</label>
-            <input
-              type="email"
-              name="email"
-              defaultValue={art.email}
-              readOnly
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Artwork Title</label>
+            <input type="text" name="title" defaultValue={art.title} required className={inputClass} />
           </div>
-
-          {/* Image */}
           <div>
-            <label className='label font-medium'>Image URL</label>
-            <input
-              type="text"
-              name="image"
-              defaultValue={art.image}
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Category</label>
+            <input type="text" name="category" defaultValue={art.category} required className={inputClass} />
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Price ($)</label>
+              <input type="number" name="price" defaultValue={art.price} className={inputClass} />
+            </div>
+            <div>
+              <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Visibility</label>
+              <select
+                name="visibility"
+                className="w-full p-3 rounded-xl border border-gray-200
+             bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600
+             text-white font-semibold
+             focus:outline-none focus:ring-2 focus:ring-pink-400
+             dark:border-gray-700 dark:text-white"
+              >
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
-          {/* Title */}
+        {/* Media & Specs */}
+        <div className="space-y-6 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <h3 className="text-lg font-bold dark:text-white">Media & Specifications</h3>
           <div>
-            <label className='label font-medium'>Title</label>
-            <input
-              type="text"
-              name="title"
-              defaultValue={art.title}
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Main Image URL</label>
+            <input type="text" name="image" defaultValue={art.image} required className={inputClass} />
           </div>
-
-          {/* Category */}
           <div>
-            <label className='label font-medium'>Category</label>
-            <input
-              type="text"
-              name="category"
-              defaultValue={art.category}
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Medium / Tools</label>
+            <input type="text" name="mediumTools" defaultValue={art.mediumTools} required className={inputClass} />
           </div>
-
-          {/* Medium */}
           <div>
-            <label className='label font-medium'>Medium</label>
-            <input
-              type="text"
-              name="mediumTools"
-              defaultValue={art.mediumTools}
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Dimensions</label>
+            <input type="text" name="dimensions" defaultValue={art.dimensions} className={inputClass} />
           </div>
+        </div>
 
-          {/* Description */}
-          <div>
-            <label className='label font-medium'>Description</label>
-            <textarea
-              name="description"
-              defaultValue={art.description}
-              required
-              rows="4"
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
-          </div>
+        {/* Description Section */}
+        <div className="md:col-span-2 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Artwork Description</label>
+          <textarea name="description" defaultValue={art.description} rows={4} className={`${inputClass} resize-none`}></textarea>
+        </div>
 
-          {/* Visibility */}
-          <div>
-            <label className='label font-medium'>Visibility</label>
-            <select
-              name="visibility"
-              defaultValue={art.visibility}
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            >
-              <option value="public">Public</option>
-              <option value="private">Private</option>
-            </select>
-          </div>
-
-          {/* Dimensions */}
-          <div>
-            <label className='label font-medium'>Dimensions</label>
-            <input
-              type="text"
-              name="dimensions"
-              defaultValue={art.dimensions}
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
-          </div>
-
-          {/* Price */}
-          <div>
-            <label className='label font-medium'>Price</label>
-            <input
-              type="number"
-              name="price"
-              defaultValue={art.price}
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
-          </div>
-
+        {/* Submit Button */}
+        <div className="md:col-span-2 pt-4">
           <button
             type="submit"
-            className="w-full py-3 rounded-lg text-white font-semibold bg-linear-to-r from-orange-500 via-pink-500 to-purple-700 hover:opacity-90 transition"
+            className="w-full py-4 rounded-2xl font-bold text-white shadow-lg bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 hover:scale-[1.01] transition-all active:scale-95"
           >
-            Update
+            Update Masterpiece
           </button>
-        </form>
-
-      </div>
+        </div>
+      </form>
     </div>
   );
 };

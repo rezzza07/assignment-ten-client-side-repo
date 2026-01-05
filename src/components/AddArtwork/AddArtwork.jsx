@@ -1,23 +1,21 @@
-import React, { use } from 'react';
+import React, { useContext } from 'react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router';
 
-
-
 const AddArtwork = () => {
-
-  const { user } = use(AuthContext)
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  
-  const handleSubmit = (e) => {
-    e.preventDefault()
 
+  const gradientText = "bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent";
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const formData = {
       image: e.target.image.value,
       title: e.target.title.value,
       name: user.displayName,
-      photo: user.photo || "",
+      photo: user.photoURL || "",
       email: user.email,
       category: e.target.category.value,
       mediumTools: e.target.mediumTools.value,
@@ -27,197 +25,148 @@ const AddArtwork = () => {
       visibility: e.target.visibility.value,
       likes: 0,
       createdAt: new Date(),
-
-    }
+      images: [
+        e.target.image1.value,
+        e.target.image2.value,
+        e.target.image3.value,
+        e.target.image4.value
+      ].filter(img => img.trim() !== ''),
+    };
 
     fetch('https://artopia-assignment.vercel.app/arts', {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
     })
       .then(res => res.json())
-      .then(data => {
-        console.log(data);
+      .then(() => {
         toast.success("Artwork added successfully!");
-        navigate("/exploreArtworks");
-        
-        e.target.reset();
+        window.dispatchEvent(new Event('artAdded'));
+        navigate("/dashboard/my-gallery");
       })
-      .catch(err => {
-        console.log(err);
-        toast.error("Failed to add artwork!");
-      })
+      .catch(() => toast.error("Failed to add artwork!"));
+  };
 
-  }
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-transparent text-white transition-colors duration-300">
-      <div className="relative w-full max-w-2xl rounded-xl p-6 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 backdrop-blur-xl overflow-hidden border-2 border-transparent">
+    <div className="max-w-4xl mx-auto pb-10">
+      {/* Header Section */}
+      <div className="mb-8">
+        <h2 className={`text-4xl font-extrabold ${gradientText}`}>
+          Add New Artwork
+        </h2>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
+          Share your latest creation with the Artopia community.
+        </p>
+      </div>
 
-        {/* Gradient Border */}
-        <div className="absolute inset-0 rounded-xl p-[2px] bg-gray-900 pointer-events-none"></div>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <form onSubmit={handleSubmit} className="relative space-y-4">
+        {/* Main Info Section */}
+        <div className="space-y-6 md:col-span-2 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Name  */}
+            <div>
+              <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Artist Name</label>
 
-          <h2 className="text-4xl font-bold mb-14 text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700">
-            Add New Artworks
-          </h2>
+              <input
+                type="text"
+                value={user?.displayName || ''}
+                readOnly
+                className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-slate-900/50 text-gray-500 cursor-not-allowed"
+              />
+            </div>
 
-          {/* User Name */}
-          <div>
-            <label className='label font-medium' >Name</label>
-            <input
-              type="text"
-              placeholder=''
-              name="name"
-              value={user?.displayName || ''}
-              required
-              readOnly
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+            {/* Email */}
+            <div>
+              <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Email</label>
+              <input
+                type="email"
+                value={user?.email || ''}
+                readOnly
+                className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-slate-900/50 text-gray-500 cursor-not-allowed"
+              />
+            </div>
           </div>
+        </div>
 
-
-          {/* User Email */}
+        {/* Artwork Details */}
+        <div className="space-y-6 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <h3 className="text-lg font-bold dark:text-white">Basic Details</h3>
           <div>
-            <label className='label font-medium' >Email</label>
-            <input
-              type="email"
-              name="email"
-              value={user?.email || ''}
-              required
-              readOnly
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Artwork Title</label>
+            <input type="text" name="title" required placeholder="Ex: Starry Night Over the Sea" className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white" />
           </div>
-
-
-
-          {/* Image URL */}
           <div>
-            <label className='label font-medium' >Image URL</label>
-            <input
-              type="text"
-              name="image"
-              placeholder="https://example.com/image.jpg"
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 placeholder-gray-300 focus:outline-none"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Category</label>
+            <input type="text" name="category" placeholder="Ex: Impressionism" className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white" />
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Price ($)</label>
+              <input type="number" name="price" className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white" />
+            </div>
+            <div>
+              <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Visibility</label>
+              <select
+                name="visibility"
+                className="w-full p-3 rounded-xl border border-gray-200
+             bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600
+             text-white font-semibold
+             focus:outline-none focus:ring-2 focus:ring-pink-400
+             dark:border-gray-700 dark:text-white"
+              >
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </select>
 
 
-          {/* Title */}
+            </div>
+          </div>
+        </div>
+
+        {/* Media & Specs */}
+        <div className="space-y-6 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <h3 className="text-lg font-bold dark:text-white">Media & Specifications</h3>
           <div>
-            <label className='label font-medium' >Title</label>
-            <input
-              type="text"
-              name="title"
-              placeholder="Enter title"
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 placeholder-gray-300 focus:outline-none"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Main Image URL</label>
+            <input type="text" name="image" required className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white" />
           </div>
-
-
-          {/* Category */}
           <div>
-            <label className='label font-medium' >Category</label>
-            <input
-              type="text"
-              name="category"
-              placeholder="Enter category"
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 placeholder-gray-300 focus:outline-none"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Medium / Tools</label>
+            <input type="text" name="mediumTools" placeholder="Ex: Oil on Canvas, Photoshop" className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white" />
           </div>
-
-
-          {/* Medium/Tools */}
           <div>
-            <label className='label font-medium' >Medium</label>
-            <input
-              type="text"
-              name="mediumTools"
-              placeholder="Enter medium"
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 placeholder-gray-300 focus:outline-none"
-            />
+            <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Dimensions</label>
+            <input type="text" name="dimensions" placeholder="Ex: 24x36 inches" className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white" />
           </div>
+        </div>
 
+        {/* Description Section */}
+        <div className="md:col-span-2 bg-white/5 dark:bg-slate-800/40 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <label className="block mb-2 text-sm font-semibold dark:text-gray-300">Artwork Description</label>
+          <textarea name="description" rows={4} className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white"></textarea>
+        </div>
 
-          {/* Description */}
-          <div>
-            <label className='label font-medium' >Description</label>
-            <textarea
-              name="description"
-              placeholder="Enter description"
-              required
-              rows="4"
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 placeholder-gray-300 focus:outline-none"
-            />
-          </div>
+        {/* Multi-Image */}
+        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-4">
+          {['image1', 'image2', 'image3', 'image4'].map((img, i) => (
+            <div key={img}>
+              <label className="block mb-1 text-xs font-bold uppercase text-gray-500">{`Extra Img ${i + 1}`}</label>
+              <input type="text" name={img} className="w-full p-2 text-sm rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent dark:text-white" />
+            </div>
+          ))}
+        </div>
 
-
-          {/* Visibility */}
-          <div>
-            <label className='label font-medium' >Visibility</label>
-            <select
-              defaultValue=""
-              name="visibility"
-              required
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 focus:outline-none"
-            >
-              <option value="" disabled>
-                Select Visibility
-              </option>
-              <option value="public" className="bg-gray-900 text-white">
-                Public
-              </option>
-              <option value="private" className="bg-gray-900 text-white">
-                Private
-              </option>
-            </select>
-          </div>
-
-          {/* Dimensions */}
-          <div>
-            <label className='label font-medium' >Dimensions</label>
-            <input
-              type="text"
-              name="dimensions"
-              placeholder="Enter dimensions"
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 placeholder-gray-300 focus:outline-none"
-            />
-          </div>
-
-
-          {/* Price */}
-          <div>
-            <label className='label font-medium' >Price</label>
-            <input
-              type="number"
-              name="price"
-              placeholder="Enter price"
-              className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/20 placeholder-gray-300 focus:outline-none"
-            />
-          </div>
-
-
-
-
-
-
-
-          {/* Submit Button */}
+        {/* Submit Button */}
+        <div className="md:col-span-2 pt-4">
           <button
             type="submit"
-            className="w-full py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 hover:opacity-90 transition"
+            className="w-full py-4 rounded-2xl font-bold text-white shadow-lg bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 hover:scale-[1.01] transition-all active:scale-95"
           >
-            Add Artwork
+            Publish Artwork
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };

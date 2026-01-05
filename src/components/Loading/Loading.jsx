@@ -2,14 +2,16 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="flex items-center space-x-6 text-7xl font-extrabold tracking-widest">
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <div className="flex items-center space-x-4 sm:space-x-6 text-5xl sm:text-7xl font-extrabold tracking-widest">
 
+        {/* L */}
         <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
           L
         </span>
 
-        <div className="w-24 h-24">
+        {/* Rotating SVG */}
+        <div className="w-16 h-16 sm:w-24 sm:h-24">
           <svg
             viewBox="0 0 100 100"
             className="w-full h-full overflow-visible animate-[rot_3s_infinite]"
@@ -38,7 +40,6 @@ const Loading = () => {
               />
             </g>
 
-            
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#f97316" /> {/* orange-500 */}
@@ -49,25 +50,18 @@ const Loading = () => {
           </svg>
         </div>
 
-        
-        <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
-          A
-        </span>
-        <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
-          D
-        </span>
-        <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
-          I
-        </span>
-        <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
-          N
-        </span>
-        <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent">
-          G
-        </span>
+        {/* Remaining letters */}
+        {["A", "D", "I", "N", "G"].map((letter, idx) => (
+          <span
+            key={idx}
+            className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-700 bg-clip-text text-transparent"
+          >
+            {letter}
+          </span>
+        ))}
       </div>
 
-
+      {/* Animations */}
       <style>{`
         @keyframes rot {
           0% { transform: rotate(0deg); }
