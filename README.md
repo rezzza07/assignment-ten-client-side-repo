@@ -6,7 +6,7 @@ Artopia is a full-stack web application designed for art lovers and creators to 
 
 🌐 Live Website
 
-🔗 Live URL: https://artopia-assignment-rezzza07.netlify.app/
+🔗 Live URL: https://artopia-update-assignment-rezzza07.netlify.app/
 
 🛠️ Technologies & NPM Packages Used
 
